@@ -262,8 +262,8 @@ const spk=(t,label)=>'<button class="spk" data-say="'+esc(plain(t))+'" aria-labe
 document.addEventListener("click",e=>{const b=e.target.closest("[data-say]");if(b)say(b.dataset.say)});
 
 /* ---------- data ---------- */
-const DATA=window.DATA_BASE||"data/";
-async function getJSON(u){const r=await fetch(DATA+u);if(!r.ok)throw new Error(u);return r.json()}
+let DATA_BASES=window.DATA_BASES||[window.DATA_BASE||"data/"];
+async function getJSON(u){let err;for(const b of DATA_BASES){try{const r=await fetch(b+u);if(r.ok){const j=await r.json();DATA_BASES=[b];return j}err=new Error(u+" "+r.status)}catch(e){err=e}}throw err||new Error(u)}
 async function loadWeek(n){if(S.weeks[n])return S.weeks[n];const w=await getJSON("w"+pad2(n)+".json");Object.assign(S.strokes,w.strokes||{});
   w.cards={};w.days.forEach(d=>{d.week=n;[...(d.steps||[]),...(d.opt||[])].forEach((st,si)=>{st._si=si;
     if(st.t==="chars")st.items.forEach(it=>{w.cards[d.id+":c:"+it.c]={k:"c",f:it.c,b:it.r+" · "+it.ko,s:it.c}});

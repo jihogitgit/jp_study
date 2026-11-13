@@ -19,7 +19,10 @@ html = (
     '<meta name="viewport" content="width=device-width,initial-scale=1">'
     "<style>:root{color-scheme:light}body{margin:0}img{max-width:100%}"
     "[hidden]{display:none!important}</style>"
-    '<script>window.DATA_BASE="/app/static/data/";</script>'
+    "<script>(function(){var c=[];"
+    "try{c.push(new URL('app/static/data/',window.parent.location.href).href)}catch(e){}"
+    "c.push('app/static/data/','/~/+/app/static/data/','/app/static/data/');"
+    "window.DATA_BASES=c})();</script>"
     "</head><body>" + page + "</body></html>"
 )
 
