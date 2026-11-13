@@ -290,6 +290,8 @@ function route(){
   ({today:vToday,review:vReview,map:vMap,kana:vKana}[h]||vToday)();
 }
 window.addEventListener("hashchange",route);
+/* srcdoc iframe(Streamlit 등)에서는 #링크가 바깥 페이지 주소로 풀리므로 직접 처리 */
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;e.preventDefault();const h=a.getAttribute("href");if(location.hash===h)route();else location.hash=h});
 
 function statsHtml(){const lv=Math.floor(S.p.xp/500)+1;
   return '<div class="stats"><div><b>'+streak()+'일</b><span>연속 학습</span></div><div><b>Lv.'+lv+'</b><span>'+S.p.xp+' XP</span></div><div><b>'+Object.keys(S.p.done).length+'일</b><span>마친 학습지</span></div></div>'}
