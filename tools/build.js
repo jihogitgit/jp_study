@@ -13,7 +13,12 @@ for (let n = 1; n <= 99; n++) {
   const f = path.join(root, 'src', 'w' + String(n).padStart(2, '0') + '.js'); if (!fs.existsSync(f)) { contiguous = false; continue; }
   const w = require(f); if (contiguous) built = n; const strokes = {};
   if (w.days.length !== 7) problems.push(`w${n}: days=${w.days.length}`);
+  const ef = path.join(root, 'src', 'extra', 'e' + String(n).padStart(2, '0') + '.js'); const ex = fs.existsSync(ef) ? require(ef) : null;
+  if (ex && ex.days.length !== 7) problems.push(`e${n}: days=${ex.days.length}`);
   w.days.forEach((d, i) => { d.id = 'w' + String(n).padStart(2, '0') + 'd' + (i + 1);
+    const xr = ex && ex.days[i]; if (xr && xr.length) { const sp = r => r.split('|').map(x => x.trim());
+      const items = xr.map(r => { const [jp, ko, note, pic] = sp(r); const o = { jp, ko }; if (note) o.note = note; if (pic) o.pic = pic; return o; });
+      const qi = d.steps.findIndex(s => s.t === 'quiz'); d.steps.splice(qi < 0 ? d.steps.length : qi, 0, { t: 'vocab', title: '보충 단어', x: 1, items }); }
     [...d.steps, ...d.opt].forEach(st => {
       if (st.t === 'chars') st.items.forEach(it => { if (!it.pic && pics[it.c]) it.pic = pics[it.c]; });
       if (st.t === 'vocab') st.items.forEach(it => { const p = pics[strip(it.jp)] || pics[kanaOf(it.jp)]; if (!it.pic && p) it.pic = p; });
