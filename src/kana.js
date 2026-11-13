@@ -1,0 +1,15 @@
+const B = '　';
+const ro = ['a i u e o', 'ka ki ku ke ko', 'sa shi su se so', 'ta chi tsu te to', 'na ni nu ne no', 'ha hi fu he ho', 'ma mi mu me mo', 'ya - yu - yo', 'ra ri ru re ro', 'wa - - - o', 'n - - - -'];
+const ko = ['아 이 우 에 오', '카 키 쿠 케 코', '사 시 스 세 소', '타 치 츠 테 토', '나 니 누 네 노', '하 히 후 헤 호', '마 미 무 메 모', '야 - 유 - 요', '라 리 루 레 로', '와 - - - 오', '응 - - - -'];
+const hi = ['あいうえお', 'かきくけこ', 'さしすせそ', 'たちつてと', 'なにぬねの', 'はひふへほ', 'まみむめも', 'や　ゆ　よ', 'らりるれろ', 'わ　　　を', 'ん　　　　'];
+const ka = ['アイウエオ', 'カキクケコ', 'サシスセソ', 'タチツテト', 'ナニヌネノ', 'ハヒフヘホ', 'マミムメモ', 'ヤ　ユ　ヨ', 'ラリルレロ', 'ワ　　　ヲ', 'ン　　　　'];
+const dro = ['ga gi gu ge go', 'za ji zu ze zo', 'da ji zu de do', 'ba bi bu be bo', 'pa pi pu pe po'];
+const dko = ['가 기 구 게 고', '자 지 즈 제 조', '다 지 즈 데 도', '바 비 부 베 보', '파 피 푸 페 포'];
+const dhi = ['がぎぐげご', 'ざじずぜぞ', 'だぢづでど', 'ばびぶべぼ', 'ぱぴぷぺぽ'];
+const dka = ['ガギグゲゴ', 'ザジズゼゾ', 'ダヂヅデド', 'バビブベボ', 'パピプペポ'];
+const read = {};
+const grid = (rows, r, k) => { const out = []; rows.forEach((row, i) => { const rs = r[i].split(' '), ks = k[i].split(' '); [...row].forEach((c, j) => { if (c === B) out.push(null); else { out.push([c, rs[j]]); read[c] = rs[j] + ' · ' + ks[j]; } }); }); return out; };
+exports.hira = grid(hi, ro, ko); exports.kata = grid(ka, ro, ko);
+grid(dhi, dro, dko); grid(dka, dro, dko);
+Object.assign(read, { 'っ': '작은 つ · 받침처럼 끊는 소리', 'ッ': '작은 ツ · 받침처럼 끊는 소리', 'ゃ': '작은 や', 'ゅ': '작은 ゆ', 'ょ': '작은 よ', 'ャ': '작은 ヤ', 'ュ': '작은 ユ', 'ョ': '작은 ヨ', 'ー': '길게 늘이는 표시' });
+exports.read = read;
